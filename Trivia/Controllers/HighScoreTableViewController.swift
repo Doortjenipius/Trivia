@@ -44,6 +44,7 @@ class HighScoreTableViewController: UITableViewController {
     func uploadOrder() {
         // Roept submitScore uit de MenuController aan.
         MenuController.shared.submitScore(forHighScore: highscoreItems[0]) {
+// Haalt de highsc
             MenuController.shared.fetchHighscore { (highscoreitems) in
                 if let highscore = highscoreitems {
                     DispatchQueue.main.async {

@@ -58,10 +58,15 @@ class QuestionViewController: UIViewController {
         // QuestionIndex telt er 1 bij op nadat nextQuestion weer is aangeroepen, zo wordt bijgehouden bij welke vraag de gebruiker is.
         questionIndex += 1
         if questionIndex < questionItems.count {
+            // Geeft aan wat de huidige vraag is.
             current_Question = questionItems[questionIndex]
+            // Text van het label wordt naar de huidige vraag gezet.
             questionLabel.text = current_Question.question.removingHTMLEntities
+            // Updateanswers wordt aangeroepen.
             updateAnswers(using: current_Question.answers)
+            // Questionnumber label wordt naar het juiste aantal gezet.
             questionNumber.text = "Question number \(questionIndex)"
+            // Score label houdt de score bij.
             scoreLabel.text = "Score = \(score)"
             // Als de questionIndex groter is dan het aantal vragen wordt de Segue uitgevoerd om naar de ResultsViewController te gaan.
         } else {
@@ -70,7 +75,7 @@ class QuestionViewController: UIViewController {
         }
     }
     
-    
+    // Deze functie zet de titel van de buttons naar de juiste antwoordmogelijkheden.
     func updateAnswers(using answers: [String]) {
         answer1.setTitle(answers[0].removingHTMLEntities, for: .normal)
         answer2.setTitle(answers[1].removingHTMLEntities, for: .normal)
@@ -78,22 +83,24 @@ class QuestionViewController: UIViewController {
         answer4.setTitle(answers[3].removingHTMLEntities, for: .normal)
     }
     
+    // Functie houdt de score bij. Checkt of de button die is ingedrukt overeenkomt met het correct antwoord, dan krijgt score + 1 en wordt de volgende vraag aangeroepen.
     @IBAction func correctScore(_ sender: UIButton) {
         if sender.currentTitle == current_Question.correct {
             score += 1
             nextQuestion()
         } else {
-            // pop up met juiste antwoord.
+            // Als het niet het juiste antwoord is wordt de volgende vraag aangeroepen.
             nextQuestion()
         }
     }
     
-    
+    // Segue naar HighScoreTabelViewController.
     override func prepare(for segue: UIStoryboardSegue, sender:
         Any?) {
         if segue.identifier == "ResultPage" {
             let highScoreViewController = segue.destination
                 as! HighScoreTableViewController
+            // de score wordt omgezet in een string en vervolgens opgeslagen in de score van highscoreItem.
             highscoreItem.score = String(score)
             highScoreViewController.highscoreItems.append(highscoreItem)
         }
